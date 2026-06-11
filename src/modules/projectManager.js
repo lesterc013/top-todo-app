@@ -1,5 +1,9 @@
 import Todo from './todo.js';
 
+/**
+ * ProjectManager - for every project, this will manage all the todos related to it.
+ * This is the interface the main controller will work with to manipulate the todos within that project.
+ */
 export default class ProjectManager {
   constructor() {
     this.todos = [];
@@ -13,7 +17,7 @@ export default class ProjectManager {
   // Read
   displayAllTodos() {
     this.todos.forEach((todo) => {
-      console.log(todo.readTodo());
+      console.log(todo.title);
     });
   }
 
