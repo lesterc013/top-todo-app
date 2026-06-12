@@ -9,13 +9,19 @@ import ProjectManager from './ProjectManager.js';
 export default class AppController {
   constructor() {
     this.projectManagerCollection = new CollectionManager(
-      (id, projectName) => new ProjectManager(id, projectName),
+      (id, projectManagerProperties) =>
+        new ProjectManager(id, projectManagerProperties),
     );
     this.currentPM = null;
   }
 
-  createNewPm(projectName) {
-    return this.projectManagerCollection.createOne(projectName);
+  createNewPm(formData) {
+    const projectValues = {
+      projectName: '',
+      description: '',
+      ...formData,
+    };
+    return this.projectManagerCollection.createOne(projectValues);
   }
 
   getOnePm(id) {
