@@ -7,17 +7,18 @@ import protectedTodoProperties from './protectedTodoProperties.js';
  * This is the interface the app controller will work with to manipulate the todos within that project.
  */
 export default class ProjectManager {
-  constructor(id, projectName) {
+  constructor(id, projectManagerProperties) {
     this.id = id;
-    this.projectName = projectName;
+    this.projectName = projectManagerProperties.projectName;
+    this.description = projectManagerProperties.description;
 
     // Provide CollectionManager with the factory function that it can use to create Todos.
     this.todoCollection = new CollectionManager(
-      (id, todoValues) => new Todo(id, todoValues),
+      (id, todoProperties) => new Todo(id, todoProperties),
     );
   }
 
-  addTodo(userInput) {
+  addTodo(newTodoFormData) {
     // First few properties are the default values. Then spread what the user wrote to override the values.
     // Then, use the todoCollection to create the todo.
     const todoValues = {
@@ -25,7 +26,7 @@ export default class ProjectManager {
       description: '',
       dueDate: null,
       isDone: false,
-      ...userInput,
+      ...newTodoFormData,
     };
     return this.todoCollection.createOne(todoValues);
   }
@@ -36,7 +37,7 @@ export default class ProjectManager {
   }
 
   // Update
-  updateTodo(id, userInput) {
+  updateTodo(id, updateFormData) {
     const toUpdate = this.todoCollection.getOne(id);
     if (!toUpdate) {
       console.log(`Error: ${id} not found.`);
@@ -44,7 +45,9 @@ export default class ProjectManager {
     }
 
     // Skip updating if a property is protected.
-    for (const [propertyToUpdate, updatedValue] of Object.entries(userInput)) {
+    for (const [propertyToUpdate, updatedValue] of Object.entries(
+      updateFormData,
+    )) {
       if (protectedTodoProperties.has(propertyToUpdate)) {
         console.log(`Skipping property: ${propertyToUpdate}`);
         continue;
