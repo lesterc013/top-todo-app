@@ -16,10 +16,7 @@ export default class ProjectManager {
   // Returns the new todo to caller.
   createNewTodo(title) {
     const newTodo = new Todo(crypto.randomUUID(), title);
-    this.todos[newTodo.id] = newTodo;
-    console.log(
-      `Added todo: id: ${newTodo.id}, todo: ${this.todos[newTodo.id].title}`,
-    );
+    this.todos.set(newTodo.id, newTodo);
     return newTodo;
   }
 
@@ -30,7 +27,7 @@ export default class ProjectManager {
 
   // Update
   updateTodo(id, submittedValues) {
-    const toUpdate = this.todos[id];
+    const toUpdate = this.todos.get(id);
     if (!toUpdate) {
       console.log(`Error: ${id} not found.`);
       return null;
@@ -56,5 +53,8 @@ export default class ProjectManager {
     return toUpdate;
   }
 
-  deleteTodo(id) {}
+  // Delete. Return T/F if todo has been successfully deleted.
+  // deleteTodo(id) {
+  //   return this.todos.delete(id);
+  // }
 }
