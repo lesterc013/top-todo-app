@@ -9,7 +9,7 @@ export default class ProjectManager {
   constructor(id, projectName) {
     this.id = id;
     this.projectName = projectName;
-    this.todos = {};
+    this.todos = new Map();
   }
 
   // Create - instantiate a new Todo object, and store it in todos array
@@ -56,8 +56,5 @@ export default class ProjectManager {
     return toUpdate;
   }
 
-  // TODO: Delete
-  // deleteTodo(id) {
-  //   const toDelete = this.todos.find(t => t.id === id);
-  // }
+  deleteTodo(id) {}
 }
