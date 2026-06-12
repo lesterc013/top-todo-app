@@ -3,7 +3,7 @@
  * At any point in time, it will have a current PM - where we manipulate whatever we need to do with that PM's todos.
  */
 
-import ProjectManager from './projectManager.js';
+import ProjectManager from './ProjectManager.js';
 
 export default class AppController {
   constructor() {

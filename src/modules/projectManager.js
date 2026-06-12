@@ -1,4 +1,4 @@
-import Todo from './todo.js';
+import Todo from './Todo.js';
 import protectedTodoProperties from './protectedTodoProperties.js';
 
 /**
