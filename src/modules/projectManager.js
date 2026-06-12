@@ -5,11 +5,10 @@ import Todo from './todo.js';
  * This is the interface the app controller will work with to manipulate the todos within that project.
  */
 export default class ProjectManager {
-  constructor() {
-    // Store todos in an object - key = id, value = todo itself.
-    // Allows for quicker indexing.
+  constructor(id, projectName) {
+    this.id = id;
+    this.projectName = projectName;
     this.todos = {};
-    // TODO: Add fields Id, Project Name
   }
 
   // Create - instantiate a new Todo object, and store it in todos array
