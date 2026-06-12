@@ -2,26 +2,32 @@ import Todo from './todo.js';
 
 /**
  * ProjectManager - for every project, this will manage all the todos related to it.
- * This is the interface the main controller will work with to manipulate the todos within that project.
+ * This is the interface the app controller will work with to manipulate the todos within that project.
  */
 export default class ProjectManager {
   constructor() {
-    this.todos = [];
+    // Store todos in an object - key = id, value = todo itself.
+    // Allows for quicker indexing.
+    this.todos = {};
+    // TODO: Add fields Id, Project Name
   }
 
   // Create - instantiate a new Todo object, and store it in todos array
   createNewTodo(title) {
-    this.todos.push(new Todo(title));
+    const newTodo = new Todo(crypto.randomUUID(), title);
+    this.todos[newTodo.id] = newTodo;
+    console.log(`Added todo: id: ${newTodo.id}, todo: ${this.todos[newTodo.id].title}`)
   }
 
-  // Read
-  displayAllTodos() {
-    this.todos.forEach((todo) => {
-      console.log(todo.title);
-    });
+  // Return all todos to the caller 
+  getAllTodos() {
+    return this.todos;
   }
 
-  // Update
+  // TODO: Update
 
-  // Delete
+  // TODO: Delete
+  // deleteTodo(id) {
+  //   const toDelete = this.todos.find(t => t.id === id);
+  // }
 }
