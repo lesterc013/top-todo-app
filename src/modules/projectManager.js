@@ -54,7 +54,7 @@ export default class ProjectManager {
   }
 
   // Delete. Return T/F if todo has been successfully deleted.
-  // deleteTodo(id) {
-  //   return this.todos.delete(id);
-  // }
+  deleteTodo(id) {
+    return this.todos.delete(id);
+  }
 }
