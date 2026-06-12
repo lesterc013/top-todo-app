@@ -29,9 +29,6 @@ export default class ProjectManager {
   }
 
   // Update
-  // Receives the id and an object that contains all the properties of a todo and the corresponding values changed by the user.
-  // Finds the todo, then only updates the todo's value for that property if it exists within.
-  // id property is protected.
   updateTodo(id, submittedValues) {
     const toUpdate = this.todos[id];
     if (!toUpdate) {
@@ -42,13 +39,11 @@ export default class ProjectManager {
     for (const [propertyToUpdate, updatedValue] of Object.entries(
       submittedValues,
     )) {
-      // Can be scaled to store all protected fields in some collection and checking if property is in the collection.
       if (protectedTodoProperties.has(propertyToUpdate)) {
         console.log(`Skipping property: ${propertyToUpdate}`);
         continue;
       }
 
-      // Only replace the value if the property is in toUpdate
       if (!Object.hasOwn(toUpdate, propertyToUpdate)) {
         console.log(`Error: property: ${propertyToUpdate} not found in todo.`);
         continue;
