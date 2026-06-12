@@ -14,7 +14,8 @@ export default class ProjectManager {
 
   // Create - instantiate a new Todo object, and store it in todos array
   // Returns the new todo to caller.
-  createNewTodo(title) {
+  // TODO: Should provide an object containing all the properties of the todo rather than just a title - cos this at the end of the day will originate from a form.
+  addTodo(title) {
     const newTodo = new Todo(crypto.randomUUID(), title);
     this.todos.set(newTodo.id, newTodo);
     return newTodo;
