@@ -1,4 +1,5 @@
 import Todo from './todo.js';
+import protectedTodoProperties from './protectedTodoProperties.js';
 
 /**
  * ProjectManager - for every project, this will manage all the todos related to it.
@@ -12,18 +13,53 @@ export default class ProjectManager {
   }
 
   // Create - instantiate a new Todo object, and store it in todos array
+  // Returns the new todo to caller.
   createNewTodo(title) {
     const newTodo = new Todo(crypto.randomUUID(), title);
     this.todos[newTodo.id] = newTodo;
-    console.log(`Added todo: id: ${newTodo.id}, todo: ${this.todos[newTodo.id].title}`)
+    console.log(
+      `Added todo: id: ${newTodo.id}, todo: ${this.todos[newTodo.id].title}`,
+    );
+    return newTodo;
   }
 
-  // Return all todos to the caller 
+  // Return all todos to the caller
   getAllTodos() {
     return this.todos;
   }
 
-  // TODO: Update
+  // Update
+  // Receives the id and an object that contains all the properties of a todo and the corresponding values changed by the user.
+  // Finds the todo, then only updates the todo's value for that property if it exists within.
+  // id property is protected.
+  updateTodo(id, submittedValues) {
+    const toUpdate = this.todos[id];
+    if (!toUpdate) {
+      console.log(`Error: ${id} not found.`);
+      return null;
+    }
+
+    for (const [propertyToUpdate, updatedValue] of Object.entries(
+      submittedValues,
+    )) {
+      // Can be scaled to store all protected fields in some collection and checking if property is in the collection.
+      if (protectedTodoProperties.has(propertyToUpdate)) {
+        console.log(`Skipping property: ${propertyToUpdate}`);
+        continue;
+      }
+
+      // Only replace the value if the property is in toUpdate
+      if (!Object.hasOwn(toUpdate, propertyToUpdate)) {
+        console.log(`Error: property: ${propertyToUpdate} not found in todo.`);
+        continue;
+      }
+
+      // Only update if not 'id', and property exists.
+      toUpdate[propertyToUpdate] = updatedValue;
+    }
+
+    return toUpdate;
+  }
 
   // TODO: Delete
   // deleteTodo(id) {
