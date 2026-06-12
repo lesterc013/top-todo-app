@@ -2,7 +2,8 @@
  * Keep the Todo class simple - only a data storage class.
  */
 export default class Todo {
-  constructor(title) {
+  constructor(id, title) {
+    this.id = id;
     this.title = title;
     this.description = 'Default';
     this.dueDate = 'To set a date object';
