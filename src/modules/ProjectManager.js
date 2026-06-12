@@ -10,7 +10,6 @@ export default class ProjectManager {
   constructor(id, projectName) {
     this.id = id;
     this.projectName = projectName;
-    this.todos = new Map();
 
     // Provide CollectionManager with the factory function that it can use to create Todos.
     this.todoCollection = new CollectionManager(
