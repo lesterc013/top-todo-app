@@ -3,18 +3,31 @@
  * At any point in time, it will have a current PM - where we manipulate whatever we need to do with that PM's todos.
  */
 
+import CollectionManager from './CollectionManager.js';
 import ProjectManager from './ProjectManager.js';
 
 export default class AppController {
   constructor() {
-    this.projectManagers = new Map();
+    this.projectManagerCollection = new CollectionManager(
+      (id, projectName) => new ProjectManager(id, projectName),
+    );
     this.currentPM = null;
   }
 
-  createNewPM(projectName) {
-    const newPM = new ProjectManager(crypto.randomUUID(), projectName);
-    this.projectManagers.set(newPM.id, newPM);
-    return newPM;
+  createNewPm(projectName) {
+    return this.projectManagerCollection.createOne(projectName);
+  }
+
+  getOnePm(id) {
+    return this.projectManagerCollection.getOne(id);
+  }
+
+  getAllPMs() {
+    return this.projectManagerCollection.getAll();
+  }
+
+  removePM(id) {
+    return this.projectManagerCollection.deleteOne(id);
   }
 
   changePM(id) {
@@ -26,9 +39,5 @@ export default class AppController {
 
     this.currentPM = pm;
     return this.currentPM;
-  }
-
-  removePM(id) {
-    return this.projectManagers.delete(id);
   }
 }
