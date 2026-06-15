@@ -39,9 +39,10 @@ const mainRenderer = new MainRenderer(
 );
 
 // Handler to change todos rendered based on the hash change which is the ID of the specific TodoManager.
-window.onhashchange = (hashChangeEvent) => {
-  const selectedTodoManager = projManager.getOneTodoManager(
-    window.location.hash.substring(1),
-  );
-  mainRenderer.handleNewProjectClicked(selectedTodoManager);
-};
+function handleHashChange() {
+  console.log(window.location.hash.substring(1));
+  const todoManagerId = window.location.hash.substring(1);
+  mainRenderer.renderTodosFor(projManager.getOneTodoManager(todoManagerId));
+}
+
+window.onhashchange = handleHashChange;
