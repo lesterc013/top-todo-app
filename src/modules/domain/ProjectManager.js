@@ -27,6 +27,10 @@ export default class ProjectManager {
     return this.todoManagerCollection.getOne(id);
   }
 
+  /**
+   *
+   * @returns Map containing the id : TodoManager object
+   */
   getAllTodoManagers() {
     return this.todoManagerCollection.getAll();
   }
