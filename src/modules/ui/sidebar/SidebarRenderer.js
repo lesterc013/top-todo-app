@@ -18,7 +18,7 @@ export default class SidebarRenderer {
     for (const todoManager of todoManagers.values()) {
       const li = document.createElement('li');
       const a = document.createElement('a');
-      a.href = `/${todoManager.id}`;
+      a.href = `#${todoManager.id}`;
       const span = document.createElement('span');
       span.textContent = `${todoManager.projectName}`;
 

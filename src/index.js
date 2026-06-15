@@ -26,21 +26,22 @@ projManager.activeTodoManager.updateTodo(toUpdate.id, {
 });
 
 const sidebarContainer = document.querySelector('.sidebar');
-
 const sidebarRenderer = new SidebarRenderer(sidebarContainer, projManager);
 sidebarRenderer.render();
 
-const mainRenderer = new MainRenderer();
+const mainContainer = document.querySelector('.main');
+const projectNameContainer = document.querySelector('.project-name');
+const todosContainer = document.querySelector('.todos');
+const mainRenderer = new MainRenderer(
+  mainContainer,
+  projectNameContainer,
+  todosContainer,
+);
 
-navigation.addEventListener('navigate', (navigationEvent) => {
-  const url = new URL(navigationEvent.destination.url);
-
-  navigationEvent.intercept({
-    async handler() {
-      const todoManager = projManager.getOneTodoManager(
-        url.pathname.substring(1),
-      );
-      mainRenderer.renderTodos(todoManager);
-    },
-  });
-});
+// Handler to change todos rendered based on the hash change which is the ID of the specific TodoManager.
+window.onhashchange = (hashChangeEvent) => {
+  const selectedTodoManager = projManager.getOneTodoManager(
+    window.location.hash.substring(1),
+  );
+  mainRenderer.handleNewProjectClicked(selectedTodoManager);
+};
