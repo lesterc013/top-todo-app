@@ -6,7 +6,7 @@
 import CollectionManager from './CollectionManager.js';
 import ProjectManager from './ProjectManager.js';
 
-export default class AppController {
+export default class ProjectManager {
   constructor() {
     this.projectManagerCollection = new CollectionManager(
       (id, projectManagerProperties) =>

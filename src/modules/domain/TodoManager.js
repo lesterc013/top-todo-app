@@ -6,7 +6,7 @@ import protectedTodoProperties from './protectedTodoProperties.js';
  * ProjectManager - for every project, this will manage all the todos related to it.
  * This is the interface the app controller will work with to manipulate the todos within that project.
  */
-export default class ProjectManager {
+export default class TodoManager {
   constructor(id, projectManagerProperties) {
     this.id = id;
     this.projectName = projectManagerProperties.projectName;
