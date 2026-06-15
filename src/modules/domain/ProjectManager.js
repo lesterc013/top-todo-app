@@ -1,72 +1,49 @@
-import Todo from './Todo.js';
-import CollectionManager from './CollectionManager.js';
-import protectedTodoProperties from './protectedTodoProperties.js';
-
 /**
- * ProjectManager - for every project, this will manage all the todos related to it.
- * This is the interface the app controller will work with to manipulate the todos within that project.
+ * AppController will be the main class that holds all the PMs.
+ * At any point in time, it will have a current PM - where we manipulate whatever we need to do with that PM's todos.
  */
-export default class ProjectManager {
-  constructor(id, projectManagerProperties) {
-    this.id = id;
-    this.projectName = projectManagerProperties.projectName;
-    this.description = projectManagerProperties.description;
 
-    // Provide CollectionManager with the factory function that it can use to create Todos.
-    this.todoCollection = new CollectionManager(
-      (id, todoProperties) => new Todo(id, todoProperties),
+import CollectionManager from './CollectionManager.js';
+import ProjectManager from './ProjectManager.js';
+
+export default class AppController {
+  constructor() {
+    this.projectManagerCollection = new CollectionManager(
+      (id, projectManagerProperties) =>
+        new ProjectManager(id, projectManagerProperties),
     );
+    this.currentPM = null;
   }
 
-  addTodo(newTodoFormData) {
-    // First few properties are the default values. Then spread what the user wrote to override the values.
-    // Then, use the todoCollection to create the todo.
-    const todoValues = {
-      title: '',
+  createNewPm(formData) {
+    const projectValues = {
+      projectName: '',
       description: '',
-      dueDate: null,
-      isDone: false,
-      ...newTodoFormData,
+      ...formData,
     };
-    return this.todoCollection.createOne(todoValues);
+    return this.projectManagerCollection.createOne(projectValues);
   }
 
-  // Return all todos to the caller
-  getAllTodos() {
-    return this.todoCollection;
+  getOnePm(id) {
+    return this.projectManagerCollection.getOne(id);
   }
 
-  // Update
-  updateTodo(id, updateFormData) {
-    const toUpdate = this.todoCollection.getOne(id);
-    if (!toUpdate) {
-      console.log(`Error: ${id} not found.`);
+  getAllPMs() {
+    return this.projectManagerCollection.getAll();
+  }
+
+  removePM(id) {
+    return this.projectManagerCollection.deleteOne(id);
+  }
+
+  changePM(id) {
+    const pm = this.projectManagers.get(id);
+    if (!pm) {
+      console.log(`Error. Can't find PM of id ${id}`);
       return null;
     }
 
-    // Skip updating if a property is protected.
-    for (const [propertyToUpdate, updatedValue] of Object.entries(
-      updateFormData,
-    )) {
-      if (protectedTodoProperties.has(propertyToUpdate)) {
-        console.log(`Skipping property: ${propertyToUpdate}`);
-        continue;
-      }
-
-      // Skip update if property not in Todo schema.
-      if (!Object.hasOwn(toUpdate, propertyToUpdate)) {
-        console.log(`Error: property: ${propertyToUpdate} not found in todo.`);
-        continue;
-      }
-
-      // Only update after the checks.
-      toUpdate[propertyToUpdate] = updatedValue;
-    }
-
-    return toUpdate;
-  }
-
-  deleteTodo(id) {
-    return this.todoCollection.deleteOne(id);
+    this.currentPM = pm;
+    return this.currentPM;
   }
 }
