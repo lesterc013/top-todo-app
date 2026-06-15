@@ -11,10 +11,10 @@ export default class ProjectManager {
     this.todoManagerCollection = new CollectionManager(
       (id, todoManagerProperties) => new TodoManager(id, todoManagerProperties),
     );
-    this.currentPM = null;
+    this.activeTodoManager = null;
   }
 
-  createNewPm(formData) {
+  createNewTodoManager(formData) {
     const projectValues = {
       projectName: '',
       description: '',
@@ -23,27 +23,26 @@ export default class ProjectManager {
     return this.todoManagerCollection.createOne(projectValues);
   }
 
-  getOnePm(id) {
+  getOneTodoManager(id) {
     return this.todoManagerCollection.getOne(id);
   }
 
-  getAllPMs() {
+  getAllTodoManagers() {
     return this.todoManagerCollection.getAll();
   }
 
-  removePM(id) {
+  remove(id) {
     return this.todoManagerCollection.deleteOne(id);
   }
 
-  // TODO: Implement this correctly.
-  // changePM(id) {
-  //   const pm = this.projectManagers.get(id);
-  //   if (!pm) {
-  //     console.log(`Error. Can't find PM of id ${id}`);
-  //     return null;
-  //   }
+  setActiveTodoManager(id) {
+    const newTodoManager = this.getOneTodoManager(id);
+    if (!newTodoManager) {
+      console.log(`Error: Todo Manager id: ${id} not found`);
+      return null;
+    }
 
-  //   this.currentPM = pm;
-  //   return this.currentPM;
-  // }
+    this.activeTodoManager = newTodoManager;
+    return this.activeTodoManager;
+  }
 }
