@@ -3,14 +3,13 @@ import CollectionManager from './CollectionManager.js';
 import protectedTodoProperties from './protectedTodoProperties.js';
 
 /**
- * ProjectManager - for every project, this will manage all the todos related to it.
- * This is the interface the app controller will work with to manipulate the todos within that project.
+ * TodoManager - for every project, this will manage all the todos related to it.
  */
 export default class TodoManager {
-  constructor(id, projectManagerProperties) {
+  constructor(id, todoManagerProperties) {
     this.id = id;
-    this.projectName = projectManagerProperties.projectName;
-    this.description = projectManagerProperties.description;
+    this.projectName = todoManagerProperties.projectName;
+    this.description = todoManagerProperties.description;
 
     // Provide CollectionManager with the factory function that it can use to create Todos.
     this.todoCollection = new CollectionManager(
