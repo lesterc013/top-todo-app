@@ -32,7 +32,7 @@ export default class TodoManager {
 
   // Return all todos to the caller
   getAllTodos() {
-    return this.todoCollection;
+    return this.todoCollection.getAll();
   }
 
   // Update
