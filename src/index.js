@@ -1,32 +1,46 @@
-// import ProjectManager from './modules/projectManager.js';
+import ProjectManager from './modules/domain/ProjectManager.js';
+import MainRenderer from './modules/ui/main/MainRenderer.js';
+import SidebarRenderer from './modules/ui/sidebar/SidebarRenderer.js';
 
-import AppController from './modules/AppController.js';
-
-const app = new AppController();
-const twm = app.createNewPm({
+const projManager = new ProjectManager();
+const twm = projManager.createNewTodoManager({
   projectName: 'TWM',
   description: 'Bulldog rat ass',
 });
-const lck = app.createNewPm({ projectName: 'LCK' });
-const edsel = app.createNewPm({ projectName: 'Edsek' });
+const lck = projManager.createNewTodoManager({ projectName: 'LCK' });
+const edsel = projManager.createNewTodoManager({ projectName: 'Edsek' });
 
-console.log(app.getAllPMs());
-// console.log(app.getOnePm(lck.id));
-// console.log(app.removePM(lck.id));
-// console.log(app.getOnePm(twm.id));
+projManager.setActiveTodoManager(twm.id);
 
-// const pm = new ProjectManager(crypto.randomUUID(), 'TWM Project');
-// pm.addTodo({
-//   title: 'TWM go home early',
-//   description: 'Take bag and zhao',
-// });
-// const toUpdate = pm.addTodo({
-//   title: 'Go for meeting',
-//   description: 'Bring LCK along',
-// });
+projManager.activeTodoManager.addTodo({
+  title: 'TWM go home early',
+  description: 'Take bag and zhao',
+});
+const toUpdate = projManager.activeTodoManager.addTodo({
+  title: 'Go for meeting',
+  description: 'Bring LCK along',
+});
 
-// pm.updateTodo(toUpdate.id, {
-//   title: 'Change title',
-// });
+projManager.activeTodoManager.updateTodo(toUpdate.id, {
+  title: 'Change title',
+});
 
-// console.log(pm.getAllTodos());
+const sidebarContainer = document.querySelector('.sidebar');
+
+const sidebarRenderer = new SidebarRenderer(sidebarContainer, projManager);
+sidebarRenderer.render();
+
+const mainRenderer = new MainRenderer();
+
+navigation.addEventListener('navigate', (navigationEvent) => {
+  const url = new URL(navigationEvent.destination.url);
+
+  navigationEvent.intercept({
+    async handler() {
+      const todoManager = projManager.getOneTodoManager(
+        url.pathname.substring(1),
+      );
+      mainRenderer.renderTodos(todoManager);
+    },
+  });
+});
