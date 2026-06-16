@@ -46,4 +46,16 @@ function handleHashChange() {
   mainRenderer.renderTodosFor(projManager.getOneTodoManager(todoManagerId));
 }
 
+// Attach form submission event listener here rather than MainRenderer to decouple dependencies.
+todosContainer.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const data = new FormData(e.target);
+  data.has('is-done')
+    ? data.set('is-done', true)
+    : data.append('is-done', false);
+  console.log([...data.entries()]);
+  // TODO: Extract form data and call update todo
+  // Get the correct todo manager from the hash in the url?
+});
+
 window.onhashchange = handleHashChange;
