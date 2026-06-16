@@ -26,24 +26,57 @@ export default class MainRenderer {
     const allTodos = todoManager.getAllTodos();
 
     // For each entry in the storage.
-    for (const [id, todo] of allTodos.entries()) {
-      // Create the todo class - title, description
-      const todoDiv = document.createElement('div');
-      todoDiv.classList = 'todo';
-      todoDiv.id = id;
-      // Fill in the text content accordingly
-      const titleDiv = document.createElement('div');
-      titleDiv.classList = 'title';
-      titleDiv.textContent = todo.title;
+    for (const [todoId, todo] of allTodos.entries()) {
+      // Create the details element - class=todo, id=todo id
+      const details = document.createElement('details');
+      details.classList = 'todo';
+      details.id = todoId;
+      // summary element text content will be the Title - Due Date (if available)
+      const summary = document.createElement('summary');
+      summary.textContent = `${todo.title} - ${todo.dueDate ? todo.dueDate : 'No due date set'}`;
 
-      const descriptionDiv = document.createElement('div');
-      descriptionDiv.classList = 'description';
-      descriptionDiv.textContent = todo.description;
+      const form = document.createElement('form');
 
-      // Append child to the todosContainer
-      todoDiv.appendChild(titleDiv);
-      todoDiv.appendChild(descriptionDiv);
-      this.todosContainer.appendChild(todoDiv);
+      const title = this.#createInputRow(todo, 'title', 'text', 'Title');
+      const desc = this.#createInputRow(
+        todo,
+        'description',
+        'text',
+        'Description',
+      );
+      const dueDate = this.#createInputRow(todo, 'due-date', 'date', 'Due');
+      const isDone = this.#createInputRow(todo, 'is-done', 'checkbox', 'Done');
+
+      form.appendChild(title);
+      form.appendChild(desc);
+      form.appendChild(dueDate);
+      form.appendChild(isDone);
+
+      details.appendChild(summary);
+      details.appendChild(form);
+      this.todosContainer.appendChild(details);
     }
+  }
+
+  #createInputRow(todoObject, inputName, inputType, labelName) {
+    const row = document.createElement('div');
+    row.classList = 'input-row';
+
+    const label = document.createElement('label');
+    label.setAttribute('for', inputName);
+    label.textContent = `${labelName}: `;
+
+    const input =
+      inputName === 'description'
+        ? document.createElement('textarea')
+        : document.createElement('input');
+    input.setAttribute('type', inputType);
+    input.setAttribute('name', inputName);
+    input.value = todoObject[inputName];
+    input.id = inputName;
+
+    row.appendChild(label);
+    row.appendChild(input);
+    return row;
   }
 }
