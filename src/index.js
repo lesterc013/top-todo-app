@@ -1,6 +1,7 @@
 import ProjectManager from './modules/domain/ProjectManager.js';
 import MainRenderer from './modules/ui/main/MainRenderer.js';
 import SidebarRenderer from './modules/ui/sidebar/SidebarRenderer.js';
+import styles from '../src/styles.css';
 
 const projManager = new ProjectManager();
 const twm = projManager.createNewTodoManager({
