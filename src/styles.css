@@ -22,6 +22,7 @@
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  height: 100vh;
 }
 
 img,
@@ -65,4 +66,10 @@ h6 {
 #root,
 #__next {
   isolation: isolate;
+}
+
+.container {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
