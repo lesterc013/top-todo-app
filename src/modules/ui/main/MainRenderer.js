@@ -1,3 +1,5 @@
+import { createTodoUpdateForm } from './elementCreator.js';
+
 export default class MainRenderer {
   constructor(mainContainer, projectNameContainer, todosContainer) {
     this.mainContainer = mainContainer;
@@ -35,48 +37,12 @@ export default class MainRenderer {
       const summary = document.createElement('summary');
       summary.textContent = `${todo.title} - ${todo.dueDate ? todo.dueDate : 'No due date set'}`;
 
-      const form = document.createElement('form');
-
-      const title = this.#createInputRow(todo, 'title', 'text', 'Title');
-      const desc = this.#createInputRow(
-        todo,
-        'description',
-        'text',
-        'Description',
-      );
-      const dueDate = this.#createInputRow(todo, 'due-date', 'date', 'Due');
-      const isDone = this.#createInputRow(todo, 'is-done', 'checkbox', 'Done');
-
-      form.appendChild(title);
-      form.appendChild(desc);
-      form.appendChild(dueDate);
-      form.appendChild(isDone);
+      const form = createTodoUpdateForm(todo);
+      form.setAttribute('method', 'post');
 
       details.appendChild(summary);
       details.appendChild(form);
       this.todosContainer.appendChild(details);
     }
-  }
-
-  #createInputRow(todoObject, inputName, inputType, labelName) {
-    const row = document.createElement('div');
-    row.classList = 'input-row';
-
-    const label = document.createElement('label');
-    label.setAttribute('for', inputName);
-    label.textContent = `${labelName}: `;
-
-    const input =
-      inputName === 'description'
-        ? document.createElement('textarea')
-        : document.createElement('input');
-    input.setAttribute('type', inputType);
-    input.setAttribute('name', inputName);
-    input.value = todoObject[inputName];
-    input.id = inputName;
-
-    row.appendChild(label);
-    row.appendChild(input);
-    return row;
   }
 }
