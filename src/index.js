@@ -63,6 +63,10 @@ todosContainer.addEventListener('submit', (e) => {
   console.log(formDataObj);
 
   // Call the activeTodoManager to update the todo
+  const active = projManager.activeTodoManager;
+  active.updateTodo(formDataObj.id, formDataObj);
+  // Then rerender the todos
+  mainRenderer.renderTodosFor(active);
 });
 
 window.onhashchange = changeActiveTodoManager;
