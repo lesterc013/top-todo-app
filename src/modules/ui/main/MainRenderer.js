@@ -14,13 +14,24 @@ export default class MainRenderer {
     this.#renderTodos(todoManager);
   }
 
+  // Is called when MainRenderer is first constructed, and subsequently for every renderTodosFor call.
   #renderProjectName(todoManager) {
-    const projectName = document.createElement('h2');
-    projectName.textContent = todoManager
-      ? todoManager.projectName
-      : 'Please select a project';
     this.projectNameContainer.replaceChildren();
-    this.projectNameContainer.appendChild(projectName);
+
+    const projectName = document.createElement('h2');
+
+    // If called with a todoManager, provide the new todo button.
+    if (todoManager) {
+      projectName.textContent = todoManager.projectName;
+      const newTodoBtn = document.createElement('button');
+      newTodoBtn.setAttribute('type', 'button');
+      newTodoBtn.textContent = 'New';
+      this.projectNameContainer.appendChild(projectName);
+      this.projectNameContainer.appendChild(newTodoBtn);
+    } else {
+      projectName.textContent = 'Please select a project';
+      this.projectNameContainer.appendChild(projectName);
+    }
   }
 
   #renderTodos(todoManager) {
