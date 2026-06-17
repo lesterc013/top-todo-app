@@ -35,7 +35,7 @@ export default class MainRenderer {
       details.id = todoId;
       // summary element text content will be the Title - Due Date (if available)
       const summary = document.createElement('summary');
-      summary.textContent = `${todo.title} - ${todo.dueDate ? todo.dueDate : 'No due date set'}`;
+      summary.textContent = todo.title;
 
       const form = createTodoUpdateForm(todo);
       form.setAttribute('method', 'post');
