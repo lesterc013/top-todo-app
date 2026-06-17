@@ -41,7 +41,14 @@ function createInputRow(todoObject, inputName, inputType, labelName) {
       : document.createElement('input');
   input.setAttribute('type', inputType);
   input.setAttribute('name', inputName);
+
+  // To correctly render the checkbox ticked or not.
+  if (inputType === 'checkbox' && todoObject.isDone) {
+    input.setAttribute('checked', 'true');
+  }
+
   input.value = todoObject[inputName];
+
   input.id = inputName;
 
   row.appendChild(label);
