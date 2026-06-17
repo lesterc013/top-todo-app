@@ -1,6 +1,11 @@
+import { createDateFormatted } from '../../helpers.js';
+
 export function createNewTodoForm() {
   const form = createFormWithStandardInputs();
-  form.setAttribute('name', 'new-todo-form');
+  form.id = 'new-todo-form';
+  // Set the dueDate value to be now formatted.
+  const dueDateInput = form.elements['dueDate'];
+  dueDateInput.value = createDateFormatted(Date.now());
   const submitBtn = document.createElement('button');
   submitBtn.setAttribute('type', 'submit');
   submitBtn.textContent = 'Add';
@@ -11,7 +16,7 @@ export function createNewTodoForm() {
 
 export function createTodoUpdateForm(todo) {
   const form = createFormWithStandardInputs(todo);
-  form.setAttribute('name', 'update-todo-form');
+  form.id = 'update-todo-form';
   const submitBtn = document.createElement('button');
   submitBtn.setAttribute('type', 'submit');
   submitBtn.textContent = 'Update';
