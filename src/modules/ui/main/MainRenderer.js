@@ -1,13 +1,21 @@
-import { createTodoUpdateForm } from './todoFormCreator.js';
+import { createNewTodoForm, createTodoUpdateForm } from './todoFormCreator.js';
 import main from './main.css';
 
 export default class MainRenderer {
-  constructor(mainContainer, projectNameContainer, todosContainer) {
+  constructor(
+    mainContainer,
+    projectNameContainer,
+    todosContainer,
+    newTodosModal,
+    newTodosButton,
+  ) {
     this.mainContainer = mainContainer;
     this.projectNameContainer = projectNameContainer;
     this.todosContainer = todosContainer;
 
     this.#renderProjectName();
+    newTodosModal.appendChild(createNewTodoForm());
+    newTodosButton.hidden = true;
   }
 
   renderTodosFor(todoManager) {
