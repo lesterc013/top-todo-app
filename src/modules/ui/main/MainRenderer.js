@@ -1,4 +1,5 @@
 import { createTodoUpdateForm } from './todoFormCreator.js';
+import main from './main.css';
 
 export default class MainRenderer {
   constructor(mainContainer, projectNameContainer, todosContainer) {
