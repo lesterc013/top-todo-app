@@ -40,10 +40,14 @@ const mainRenderer = new MainRenderer(
 );
 
 // Handler to change todos rendered based on the hash change which is the ID of the specific TodoManager.
-function handleHashChange() {
-  console.log(window.location.hash.substring(1));
-  const todoManagerId = window.location.hash.substring(1);
-  mainRenderer.renderTodosFor(projManager.getOneTodoManager(todoManagerId));
+function changeActiveTodoManager() {
+  const id = window.location.hash.substring(1);
+  const newActive = projManager.setActiveTodoManager(id);
+  if (!newActive) {
+    console.log(`Error. ID ${id} not found.`);
+    return;
+  }
+  mainRenderer.renderTodosFor(newActive);
 }
 
 // Attach form submission event listener here rather than MainRenderer to decouple dependencies.
@@ -58,7 +62,7 @@ todosContainer.addEventListener('submit', (e) => {
     : (formDataObj.isDone = false);
   console.log(formDataObj);
 
-  // TODO: Call the right todo manager to update the todo.
+  // Call the activeTodoManager to update the todo
 });
 
-window.onhashchange = handleHashChange;
+window.onhashchange = changeActiveTodoManager;
