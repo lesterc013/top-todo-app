@@ -15,6 +15,15 @@ export function createTodoUpdateForm(todo) {
   submitBtn.textContent = 'Update';
   form.appendChild(submitBtn);
 
+  // Add hidden id field to allow identification of the todo to be updated.
+  const hiddenId = document.createElement('input');
+  hiddenId.setAttribute('type', 'text');
+  hiddenId.setAttribute('name', 'id');
+  hiddenId.setAttribute('id', 'id');
+  hiddenId.hidden = true;
+  hiddenId.value = todo.id;
+  form.appendChild(hiddenId);
+
   return form;
 }
 
