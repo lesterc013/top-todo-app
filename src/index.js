@@ -49,13 +49,16 @@ function handleHashChange() {
 // Attach form submission event listener here rather than MainRenderer to decouple dependencies.
 todosContainer.addEventListener('submit', (e) => {
   e.preventDefault();
-  const data = new FormData(e.target);
-  data.has('is-done')
-    ? data.set('is-done', true)
-    : data.append('is-done', false);
-  console.log([...data.entries()]);
-  // TODO: Extract form data and call update todo
-  // Get the correct todo manager from the hash in the url?
+  const formData = new FormData(e.target);
+  const formDataObj = Object.fromEntries(formData.entries());
+
+  // Need to manually create the isDone property because when checkboxes are ticked, they will appear in the submission and vice versa.
+  formData.has('isDone')
+    ? (formDataObj.isDone = true)
+    : (formDataObj.isDone = false);
+  console.log(formDataObj);
+
+  // TODO: Call the right todo manager to update the todo.
 });
 
 window.onhashchange = handleHashChange;
