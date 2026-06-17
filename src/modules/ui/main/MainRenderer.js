@@ -12,15 +12,17 @@ export default class MainRenderer {
     this.mainContainer = mainContainer;
     this.projectNameContainer = projectNameContainer;
     this.todosContainer = todosContainer;
+    this.newTodosButton = newTodosButton;
 
-    this.#renderProjectNameContainer();
     newTodosModal.appendChild(createNewTodoForm());
-    newTodosButton.hidden = true;
+    this.#renderProjectNameContainer();
+    this.#toggleNewTodosButtonVisibility();
   }
 
   renderMainContainerFor(todoManager) {
     this.#renderProjectNameContainer(todoManager);
     this.#renderTodosContainer(todoManager);
+    this.#toggleNewTodosButtonVisibility(todoManager);
   }
 
   #renderProjectNameContainer(todoManager) {
@@ -53,5 +55,11 @@ export default class MainRenderer {
       details.appendChild(form);
       this.todosContainer.appendChild(details);
     }
+  }
+
+  #toggleNewTodosButtonVisibility(todoManager) {
+    todoManager
+      ? this.newTodosButton.removeAttribute('hidden')
+      : this.newTodosButton.setAttribute('hidden', 'true');
   }
 }
