@@ -36,10 +36,14 @@ sidebarRenderer.render();
 const mainContainer = document.querySelector('.main');
 const projectNameContainer = document.querySelector('.project-name');
 const todosContainer = document.querySelector('.todos');
+const newTodoModal = document.querySelector('.new-todo-modal');
+const newTodoBtn = document.querySelector('.new-todo-btn');
 const mainRenderer = new MainRenderer(
   mainContainer,
   projectNameContainer,
   todosContainer,
+  newTodoModal,
+  newTodoBtn,
 );
 
 // CONTROLLERS
@@ -51,6 +55,11 @@ window.onhashchange = () =>
   projectController.handleActiveTodoManagerChanged(
     window.location.hash.substring(1),
   );
+
+newTodoBtn.addEventListener('click', (e) => {
+  // If there is no active, we shouldnt open the modal - what to tell the user?
+  newTodoModal.showModal();
+});
 
 // Handle todo update form submitted.
 todosContainer.addEventListener('submit', (e) => {
