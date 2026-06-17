@@ -10,8 +10,11 @@
       <div class="sidebar"></div>
       <div class="main">
         <div class="project-name"></div>
-        <div class="todos">
-        </div>
+        <div class="todos"></div>
+        <dialog id="new-todo-modal" class="new-todo-modal">
+          <!-- <form action="post" id="new-todo-form">New Todo Form</form> -->
+          <button commandfor="new-todo-modal" command="close">Close</button>
+        </dialog>
         <div class="footer">
           <button type="button" class="new-todo-btn">New</button>
         </div>
