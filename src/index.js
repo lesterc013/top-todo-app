@@ -49,6 +49,8 @@ function changeActiveTodoManager() {
   }
   mainRenderer.renderTodosFor(newActive);
 }
+// Set the event listener onhashchange
+window.onhashchange = changeActiveTodoManager;
 
 // Attach form submission event listener here rather than MainRenderer to decouple dependencies.
 todosContainer.addEventListener('submit', (e) => {
@@ -68,5 +70,3 @@ todosContainer.addEventListener('submit', (e) => {
   // Then rerender the todos
   mainRenderer.renderTodosFor(active);
 });
-
-window.onhashchange = changeActiveTodoManager;
