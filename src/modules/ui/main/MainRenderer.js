@@ -6,16 +6,16 @@ export default class MainRenderer {
     this.projectNameContainer = projectNameContainer;
     this.todosContainer = todosContainer;
 
-    this.#renderProjectName();
+    this.#renderProjectNameContainer();
   }
 
   renderTodosFor(todoManager) {
-    this.#renderProjectName(todoManager);
-    this.#renderTodos(todoManager);
+    this.#renderProjectNameContainer(todoManager);
+    this.#renderTodosContainer(todoManager);
   }
 
   // Is called when MainRenderer is first constructed, and subsequently for every renderTodosFor call.
-  #renderProjectName(todoManager) {
+  #renderProjectNameContainer(todoManager) {
     this.projectNameContainer.replaceChildren();
 
     const projectName = document.createElement('h2');
@@ -34,7 +34,7 @@ export default class MainRenderer {
     }
   }
 
-  #renderTodos(todoManager) {
+  #renderTodosContainer(todoManager) {
     this.todosContainer.replaceChildren();
     const allTodos = todoManager.getAllTodos();
 
