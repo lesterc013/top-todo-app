@@ -48,7 +48,7 @@ const mainRenderer = new MainRenderer(
 
 // CONTROLLERS
 const projectController = new ProjectController(projectManager, mainRenderer);
-const todoController = new TodoController(projectManager, mainRenderer);
+const todoController = new TodoController(mainRenderer);
 
 // Change active todo manager on hashchange i.e. user clicked new manager from the sidebar.
 window.onhashchange = () =>
@@ -61,9 +61,21 @@ newTodoBtn.addEventListener('click', (e) => {
   newTodoModal.showModal();
 });
 
+const newTodoForm = document.querySelector('#new-todo-form');
+newTodoForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  todoController.handleAddTodo(
+    projectManager.activeTodoManager,
+    new FormData(e.target),
+  );
+  newTodoModal.close();
+});
+
 // Handle todo update form submitted.
 todosContainer.addEventListener('submit', (e) => {
   e.preventDefault();
-  const formData = new FormData(e.target);
-  todoController.handleUpdateTodo(formData);
+  todoController.handleUpdateTodo(
+    projectManager.activeTodoManager,
+    new FormData(e.target),
+  );
 });
