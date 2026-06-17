@@ -1,33 +1,35 @@
 import ProjectManager from './modules/domain/ProjectManager.js';
+import ProjectController from './modules/controller/ProjectController.js';
 import MainRenderer from './modules/ui/main/MainRenderer.js';
 import SidebarRenderer from './modules/ui/sidebar/SidebarRenderer.js';
 import styles from '../src/styles.css';
 
-const projManager = new ProjectManager();
-const twm = projManager.createNewTodoManager({
+const projectManager = new ProjectManager();
+const twm = projectManager.createNewTodoManager({
   projectName: 'TWM',
   description: 'Bulldog rat ass',
 });
-const lck = projManager.createNewTodoManager({ projectName: 'LCK' });
-const edsel = projManager.createNewTodoManager({ projectName: 'Edsek' });
+const lck = projectManager.createNewTodoManager({ projectName: 'LCK' });
+const edsel = projectManager.createNewTodoManager({ projectName: 'Edsek' });
 
-projManager.setActiveTodoManager(twm.id);
+projectManager.setActiveTodoManager(twm.id);
 
-projManager.activeTodoManager.addTodo({
+projectManager.activeTodoManager.addTodo({
   title: 'TWM go home early',
   description: 'Take bag and zhao',
 });
-const toUpdate = projManager.activeTodoManager.addTodo({
+const toUpdate = projectManager.activeTodoManager.addTodo({
   title: 'Go for meeting',
   description: 'Bring LCK along',
 });
 
-projManager.activeTodoManager.updateTodo(toUpdate.id, {
+projectManager.activeTodoManager.updateTodo(toUpdate.id, {
   title: 'Change title',
 });
 
+// RENDERERS
 const sidebarContainer = document.querySelector('.sidebar');
-const sidebarRenderer = new SidebarRenderer(sidebarContainer, projManager);
+const sidebarRenderer = new SidebarRenderer(sidebarContainer, projectManager);
 sidebarRenderer.render();
 
 const mainContainer = document.querySelector('.main');
@@ -39,18 +41,13 @@ const mainRenderer = new MainRenderer(
   todosContainer,
 );
 
-// Handler to change todos rendered based on the hash change which is the ID of the specific TodoManager.
-function changeActiveTodoManager() {
-  const id = window.location.hash.substring(1);
-  const newActive = projManager.setActiveTodoManager(id);
-  if (!newActive) {
-    console.log(`Error. ID ${id} not found.`);
-    return;
-  }
-  mainRenderer.renderTodosFor(newActive);
-}
+// CONTROLLERS
+const projectController = new ProjectController(projectManager, mainRenderer);
 // Set the event listener onhashchange
-window.onhashchange = changeActiveTodoManager;
+window.onhashchange = () =>
+  projectController.handleActiveTodoManagerChanged(
+    window.location.hash.substring(1),
+  );
 
 // Attach form submission event listener here rather than MainRenderer to decouple dependencies.
 todosContainer.addEventListener('submit', (e) => {
@@ -65,7 +62,7 @@ todosContainer.addEventListener('submit', (e) => {
   console.log(formDataObj);
 
   // Call the activeTodoManager to update the todo
-  const active = projManager.activeTodoManager;
+  const active = projectManager.activeTodoManager;
   active.updateTodo(formDataObj.id, formDataObj);
   // Then rerender the todos
   mainRenderer.renderTodosFor(active);
