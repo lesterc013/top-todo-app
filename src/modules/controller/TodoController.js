@@ -17,6 +17,6 @@ export default class TodoController {
     const active = this.projectManager.activeTodoManager;
     active.updateTodo(formDataObj.id, formDataObj);
     // Then rerender the todos
-    this.mainRenderer.renderTodosFor(active);
+    this.mainRenderer.renderMainContainerFor(active);
   }
 }

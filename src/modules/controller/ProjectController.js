@@ -11,6 +11,6 @@ export default class ProjectController {
       return;
     }
 
-    this.mainRenderer.renderTodosFor(newActive);
+    this.mainRenderer.renderMainContainerFor(newActive);
   }
 }

@@ -13,17 +13,17 @@ export default class MainRenderer {
     this.projectNameContainer = projectNameContainer;
     this.todosContainer = todosContainer;
 
-    this.#renderProjectName();
+    this.#renderProjectNameContainer();
     newTodosModal.appendChild(createNewTodoForm());
     newTodosButton.hidden = true;
   }
 
-  renderTodosFor(todoManager) {
-    this.#renderProjectName(todoManager);
-    this.#renderTodos(todoManager);
+  renderMainContainerFor(todoManager) {
+    this.#renderProjectNameContainer(todoManager);
+    this.#renderTodosContainer(todoManager);
   }
 
-  #renderProjectName(todoManager) {
+  #renderProjectNameContainer(todoManager) {
     const projectName = document.createElement('h2');
     projectName.textContent = todoManager
       ? todoManager.projectName
@@ -32,7 +32,7 @@ export default class MainRenderer {
     this.projectNameContainer.appendChild(projectName);
   }
 
-  #renderTodos(todoManager) {
+  #renderTodosContainer(todoManager) {
     this.todosContainer.replaceChildren();
     const allTodos = todoManager.getAllTodos();
 
