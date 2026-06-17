@@ -3,8 +3,8 @@ export function createTodoUpdateForm(todo) {
 
   const title = createInputRow(todo, 'title', 'text', 'Title');
   const desc = createInputRow(todo, 'description', 'text', 'Description');
-  const dueDate = createInputRow(todo, 'due-date', 'date', 'Due');
-  const isDone = createInputRow(todo, 'is-done', 'checkbox', 'Done');
+  const dueDate = createInputRow(todo, 'dueDate', 'date', 'Due');
+  const isDone = createInputRow(todo, 'isDone', 'checkbox', 'Done');
 
   form.appendChild(title);
   form.appendChild(desc);
