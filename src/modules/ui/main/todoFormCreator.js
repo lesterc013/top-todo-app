@@ -1,15 +1,17 @@
+export function createNewTodoForm() {
+  const form = createFormWithStandardInputs();
+  form.setAttribute('name', 'new-todo-form');
+  const submitBtn = document.createElement('button');
+  submitBtn.setAttribute('type', 'submit');
+  submitBtn.textContent = 'Add';
+  form.appendChild(submitBtn);
+
+  return form;
+}
+
 export function createTodoUpdateForm(todo) {
-  const form = document.createElement('form');
-
-  const title = createInputRow(todo, 'title', 'text', 'Title');
-  const desc = createInputRow(todo, 'description', 'text', 'Description');
-  const dueDate = createInputRow(todo, 'dueDate', 'date', 'Due');
-  const isDone = createInputRow(todo, 'isDone', 'checkbox', 'Done');
-
-  form.appendChild(title);
-  form.appendChild(desc);
-  form.appendChild(dueDate);
-  form.appendChild(isDone);
+  const form = createFormWithStandardInputs(todo);
+  form.setAttribute('name', 'update-todo-form');
   const submitBtn = document.createElement('button');
   submitBtn.setAttribute('type', 'submit');
   submitBtn.textContent = 'Update';
@@ -27,7 +29,27 @@ export function createTodoUpdateForm(todo) {
   return form;
 }
 
-function createInputRow(todoObject, inputName, inputType, labelName) {
+/**
+ * This function is shared by createNew and createUpdate todo forms since all the editable Todo properties are the same.
+ * @param {Todo} todo Supply a todo object to set the input field values.
+ */
+function createFormWithStandardInputs(todo = null) {
+  const form = document.createElement('form');
+
+  const title = createInputRow(todo, 'title', 'text', 'Title');
+  const desc = createInputRow(todo, 'description', 'text', 'Description');
+  const dueDate = createInputRow(todo, 'dueDate', 'date', 'Due');
+  const isDone = createInputRow(todo, 'isDone', 'checkbox', 'Done');
+
+  form.appendChild(title);
+  form.appendChild(desc);
+  form.appendChild(dueDate);
+  form.appendChild(isDone);
+
+  return form;
+}
+
+function createInputRow(todo, inputName, inputType, labelName) {
   const row = document.createElement('div');
   row.classList = 'input-row';
 
@@ -42,12 +64,15 @@ function createInputRow(todoObject, inputName, inputType, labelName) {
   input.setAttribute('type', inputType);
   input.setAttribute('name', inputName);
 
-  // To correctly render the checkbox ticked or not.
-  if (inputType === 'checkbox' && todoObject.isDone) {
-    input.setAttribute('checked', 'true');
+  // If no todo provided, then we leave value default since this is likely coming from createNewTodoForm.
+  if (todo) {
+    // To correctly render the checkbox ticked or not.
+    if (inputType === 'checkbox' && todo.isDone) {
+      input.setAttribute('checked', 'true');
+    } else {
+      input.value = todo[inputName];
+    }
   }
-
-  input.value = todoObject[inputName];
 
   input.id = inputName;
 
