@@ -1,5 +1,6 @@
 import ProjectManager from './modules/domain/ProjectManager.js';
 import ProjectController from './modules/controller/ProjectController.js';
+import TodoController from './modules/controller/TodoController.js';
 import MainRenderer from './modules/ui/main/MainRenderer.js';
 import SidebarRenderer from './modules/ui/sidebar/SidebarRenderer.js';
 import styles from '../src/styles.css';
@@ -43,27 +44,17 @@ const mainRenderer = new MainRenderer(
 
 // CONTROLLERS
 const projectController = new ProjectController(projectManager, mainRenderer);
-// Set the event listener onhashchange
+const todoController = new TodoController(projectManager, mainRenderer);
+
+// Change active todo manager on hashchange i.e. user clicked new manager from the sidebar.
 window.onhashchange = () =>
   projectController.handleActiveTodoManagerChanged(
     window.location.hash.substring(1),
   );
 
-// Attach form submission event listener here rather than MainRenderer to decouple dependencies.
+// Handle todo update form submitted.
 todosContainer.addEventListener('submit', (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
-  const formDataObj = Object.fromEntries(formData.entries());
-
-  // Need to manually create the isDone property because when checkboxes are ticked, they will appear in the submission and vice versa.
-  formData.has('isDone')
-    ? (formDataObj.isDone = true)
-    : (formDataObj.isDone = false);
-  console.log(formDataObj);
-
-  // Call the activeTodoManager to update the todo
-  const active = projectManager.activeTodoManager;
-  active.updateTodo(formDataObj.id, formDataObj);
-  // Then rerender the todos
-  mainRenderer.renderTodosFor(active);
+  todoController.handleUpdateTodo(formData);
 });
